@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🧠 Mind OS Editor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body { margin: 0; display: flex; height: 100vh; font-family: monospace; }
+    textarea { width: 50%; height: 100%; padding: 1rem; background: #111; color: #0f0; border: none; outline: none; }
+    #preview { width: 50%; padding: 1rem; overflow: auto; background: #000; color: #fff; }
+    h1, h2, h3 { color: #0f0; }
+    a { color: #0ff; }
+  </style>
+</head>
+<body>
+
+  <textarea id="editor" spellcheck="false">
+# 🧠 TommyShell
+
+Welcome to your editable second brain.
+
+## Directories
+
+- `/projects/`
+- `/tools/`
+- `/system/`
+- `/networks/`
+
+## Commands
+
+\```sh
+cd /projects/3dvr
+run boot.sh
+\```
+
+[Edit this to change your world.]
+  </textarea>
+
+  <div id="preview"></div>
+
+  <script>
+    const editor = document.getElementById("editor");
+    const preview = document.getElementById("preview");
+
+    function updatePreview() {
+      const markdownText = editor.value;
+      preview.innerHTML = marked.parse(markdownText);
+      localStorage.setItem("mindOS-doc", markdownText);
+    }
+
+    editor.addEventListener("input", updatePreview);
+
+    // Load from localStorage
+    const saved = localStorage.getItem("mindOS-doc");
+    if (saved) {
+      editor.value = saved;
+      updatePreview();
+    } else {
+      updatePreview();
+    }
+  </script>
+
+</body>
+</html>
